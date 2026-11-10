@@ -10,10 +10,11 @@
     <div ondblclick="window.open('https://google.com', '_blank');" style="cursor: pointer; padding: 20px; background: #f0f0f0; display: inline-block;">
        <b> UPDATE LOG </b>
 <p>          </p>
-<p> Verson 1 </p>
+<p> Version 1 </p>
 <p>                   </p>
 <p> - Created main code for the webstie </p>
-<p> - Created Webstie </p>
+<p> - Created Website </p>
+<p> - Created "README"
 <p> - Created Update log </p>
     </div>
 
