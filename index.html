@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; line-height: 1.6; }
+        .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 20px; font-weight: bold; word-break: break-all; padding: 10px; background: #f4f4f4; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Random Password Generator</h2>
+    
+    <div class="form-group">
+        <label for="length">Password Length (6 - 20):</label>
+        <input type="number" id="length" min="6" max="20" value="12">
+    </div>
+    
+    <div class="form-group">
+        <input type="checkbox" id="uppercase" checked>
+        <label style="display:inline;" for="uppercase">Include Uppercase Letters</label>
+    </div>
+    
+    <div class="form-group">
+        <input type="checkbox" id="numbers" checked>
+        <label style="display:inline;" for="numbers">Include Numbers</label>
+    </div>
+    
+    <div class="form-group">
+        <input type="checkbox" id="symbols" checked>
+        <label style="display:inline;" for="symbols">Include Symbols</label>
+    </div>
+    
+    <button onclick="generatePassword()">Generate Password</button>
+    
+    <div class="result" id="passwordDisplay">Your password will appear here</div>
+</div>
+
+<script>
+function generatePassword() {
+    const length = parseInt(document.getElementById('length').value);
+    if (isNaN(length) || length < 6 || length > 20) {
+        alert("Password length must be between 6 and 20 characters.");
+        return;
+    }
+
+    const includeUpper = document.getElementById('uppercase').checked;
+    const includeNums = document.getElementById('numbers').checked;
+    const includeSymbols = document.getElementById('symbols').checked;
+
+    const lowerChars = "abcdefghijklmnopqrstuvwxyz";
+    const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numChars = "0123456789";
+    const symbolChars = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+    let charPool = lowerChars;
+    let passwordList = [];
+
+    // Guarantee at least one character from each selected pool
+    passwordList.push(lowerChars[Math.floor(Math.random() * lowerChars.length)]);
+    
+    if (includeUpper) {
+        charPool += upperChars;
+        passwordList.push(upperChars[Math.floor(Math.random() * upperChars.length)]);
+    }
+    if (includeNums) {
+        charPool += numChars;
+        passwordList.push(numChars[Math.floor(Math.random() * numChars.length)]);
+    }
+    if (includeSymbols) {
+        charPool += symbolChars;
+        passwordList.push(symbolChars[Math.floor(Math.random() * symbolChars.length)]);
+    }
+
+    // Fill the remaining length
+    const remainingLength = length - passwordList.length;
+    for (let i = 0; i < remainingLength; i++) {
+        passwordList.push(charPool[Math.floor(Math.random() * charPool.length)]);
+    }
+
+    // Shuffle array using Fisher-Yates algorithm
+    for (let i = passwordList.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [passwordList[i], passwordList[j]] = [passwordList[j], passwordList[i]];
+    }
+
+    const finalPassword = passwordList.join("");
+    document.getElementById('passwordDisplay').innerText = "Your secure password is: " + finalPassword;
+}
+</script>
+
+</body>
+</html>
